@@ -94,12 +94,22 @@ while (fread(&ph, sizeof(ph), 1, f) == 1) {
 
           uint8_t *s = (uint8_t *)&ip->src_ip;
           uint8_t *d = (uint8_t *)&ip->dst_ip;
+          uint8_t ihl = ip->ver_ihl & 0x0F;
+          int ihl_bytes = ihl * 4;
 
           printf("Src IP: %d.%d.%d.%d\n", s[0], s[1], s[2], s[3]);
           printf("Dst IP: %d.%d.%d.%d\n", d[0], d[1], d[2], d[3]);
           printf("TTL: %d\n", ip->ttl);
           printf("Protocol: %d\n", ip->protocol);
+          printf("IHL: %d bytes\n", ihl_bytes);
+          printf("\n");
 }
+          else{
+                printf("Unknown EtherType: 0x%04x, skipping\n", ntohs(eth->ethertype));
+                printf("\n");
+
+}
+
       printf("Packet %d: len=%d\n", packet_num, ph.incl_len);
 
       packet_num++;
@@ -109,3 +119,4 @@ while (fread(&ph, sizeof(ph), 1, f) == 1) {
      return 0;
 }
 
+ 
